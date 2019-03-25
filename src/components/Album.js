@@ -8,9 +8,43 @@ class Album extends Component{
             return xy.slug === this.props.match.params.slug
         });
         this.state = {
-            album: album
+            album: album,
+            currentSong: album.songs[0],
+            isPlaying: false
+        };
+        this.audioElement = document.createElement('audio');
+        this.audioElement.src = album.songs[0].audioSrc;
+
+    }
+
+    play() {
+        console.log("Entered play()");
+        this.audioElement.play();
+        this.setState({isPlaying: true});
+    }
+
+    pause() {
+        console.log("Entered pause()");
+        this.audioElement.pause();
+        this.setState({isPlaying: false});
+    }
+
+    setSong (songObject) {
+        this.audioElement.src = songObject.audioSrc;
+        this.setState({currentSong: songObject})
+    }
+
+    handleSongClick (songObject) {
+        console.log("Entered handleSongClick()");
+        const isSameSong = (this.state.currentSong === songObject);
+        if(this.state.isPlaying && isSameSong){
+            this.pause();
+        }else{
+            if(!isSameSong){this.setSong(songObject)}
+            this.play();
         }
     }
+
     render(){
         return(
             <section className="album">
@@ -34,9 +68,9 @@ class Album extends Component{
                         <col id="song-title-column" />
                         <col id="song-duration-column" />
                     </colgroup>
-                    {this.state.album.songs.map( (item, index) =>
-                        <tbody key={"table" + index}>
-                            <tr key={index}>
+                    <tbody>
+                        {this.state.album.songs.map( (item, index) =>
+                            <tr className="song" key={index} onClick={() => this.handleSongClick(item)} title={this.state.actionState}>
                                 <td key={'song' + (index + 1)}>
                                     {index+1}
                                 </td>
@@ -47,8 +81,9 @@ class Album extends Component{
                                     {item.duration}
                                 </td>
                             </tr>
+
+                        )}
                         </tbody>
-                    )}
                 </table>
             </section>
         );
