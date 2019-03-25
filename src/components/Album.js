@@ -10,7 +10,8 @@ class Album extends Component{
         this.state = {
             album: album,
             currentSong: album.songs[0],
-            isPlaying: false
+            isPlaying: false,
+            actionState: null
         };
         this.audioElement = document.createElement('audio');
         this.audioElement.src = album.songs[0].audioSrc;
@@ -45,6 +46,22 @@ class Album extends Component{
         }
     }
 
+    handleNumberChange (songObject, indexOf) {
+        console.log("Entered handleNumberChange()");
+        const isSameSong = (this.state.currentSong === songObject);
+        if(this.state.actionState != null){
+            if(this.state.isPlaying && isSameSong){
+                return <span><ion-icon name="pause"></ion-icon></span>;
+            }else if(!this.state.isPlaying){
+                return <span><ion-icon name="play"></ion-icon></span>;
+            }else{
+                return <span>{indexOf+1}</span>
+            }
+        }else{
+            return <span>{indexOf+1}</span>
+        }
+    }
+
     render(){
         return(
             <section className="album">
@@ -70,9 +87,9 @@ class Album extends Component{
                     </colgroup>
                     <tbody>
                         {this.state.album.songs.map( (item, index) =>
-                            <tr className="song" key={index} onClick={() => this.handleSongClick(item)} title={this.state.actionState}>
+                            <tr className="song" key={index} onClick={() => this.handleSongClick(item)} onMouseEnter={() => this.setState({actionState: true})} onMouseLeave={() => this.setState({actionState: null})}>
                                 <td key={'song' + (index + 1)}>
-                                    {index+1}
+                                    {this.handleNumberChange(item, index)}
                                 </td>
                                 <td key={item.title + (index + 1)}>
                                     {item.title}
@@ -81,7 +98,6 @@ class Album extends Component{
                                     {item.duration}
                                 </td>
                             </tr>
-
                         )}
                         </tbody>
                 </table>
