@@ -59,18 +59,28 @@ class Album extends Component{
     handleNumberChange(song, index) {
         const isSameSong = this.state.currentSong === song;
         console.log("isSameSong value: " + isSameSong);
-        if (isSameSong && this.state.isPlaying) {
+        if (this.state.currentSong === song && this.state.isPlaying) {
+            //console.log("Rendered icon ion-md-pause");
             return (
                 <span className="icon ion-md-pause"></span>
             )
-        } else if (this.state.hoveredSong === index && !this.state.isPlaying) {
-            return (
-                <span className="icon ion-md-play"></span>
-            )
-        //}else if(this.state.hoveredSong === index && ){ ISSAME SONG IS WRONG SOMEHOW!!! FIX ITT!
-        }else if(this.state.hoveredSong !== index && this.state.isPlaying){
-            return <span>{index + 1}</span>;
+        } else if (this.state.hoveredSong === index){
+            if(this.state.isPlaying === false) {
+                console.log("Rendered icon ion-md-play");
+                return (
+                    <span className="icon ion-md-play"></span>
+                );
+            }else{
+                console.error("Didn't render icons for some reason. ")
+                return (<span className="icon ion-md-play"></span>);
+            }
+        }else if(this.state.hoveredSong === index && this.state.isPlaying !== true){ //ISSAME SONG IS WRONG SOMEHOW!!! FIX ITT!
+            console.log(index + " attempted to become `ion-md-play`");
+            return (<span className="icon ion-md-play"></span>);
+        //}else if(this.state.hoveredSong !== index && this.state.isPlaying){
+            //return <span>{index + 1}</span>;
         } else {
+            console.log("Rendered index value");
             return (
             <span>{index + 1}</span>
             );
