@@ -15,7 +15,9 @@ class Album extends Component{
             isPaused: false,
             hoveredSong: null,
             duration: album.songs[0].duration,
-            currentTime: 0
+            currentTime: 0,
+            formattedCurrentTime: 0,
+            volume: .8
         };
         this.audioElement = document.createElement('audio');
         this.audioElement.src = album.songs[0].audioSrc;
@@ -138,7 +140,7 @@ v
     componentDidMount() {
         this.eventListeners = {
             timeupdate: e => {
-                this.setState({ currentTime: this.audioElement.currentTime });
+                this.setState({ currentTime: this.audioElement.currentTime , formattedCurrentTime: this.formatTime(this.audioElement.currentTime) });
             },
             durationchange: e => {
                 this.setState({ duration: this.audioElement.duration });
@@ -158,6 +160,25 @@ v
         const newTime = this.audioElement.duration * e.target.value;
         this.audioElement.currentTime = newTime;
         this.setState({ currentTime: newTime });
+    }
+
+    formatTime (timeInSeconds) {
+        console.log("Entered formatTime() with: " + timeInSeconds);
+        if(typeof timeInSeconds === "number" && timeInSeconds !== 0){
+            const numArr = (timeInSeconds / 60).toString().split(".");
+            //return (numArr[0])+":"+(numArr[1] * 60).toString().substring(0, 2);
+            const fTime = new Date(timeInSeconds*1000).toUTCString().split(" ")[4];
+            const nFTime = (fTime != undefined)? fTime.substring(3, 8) : fTime;
+            return nFTime;
+        }else{
+            return "-:--";
+        }
+    }
+
+    handleVolumeChange(e) {
+        const newVolume = (e.target.value / 100);
+        this.audioElement.volume = newVolume;
+        this.setState({volume: newVolume})
     }
 
     render(){
@@ -203,10 +224,13 @@ v
                     handlePrevClick={() => this.handlePrevClick()}
                     handleNextClick={() => this.handleNextClick()}
                     handleSongClick={() => this.handleSongClick(this.state.currentSong)}
-                    duration={this.audioElement.duration}
+                    duration={this.formatTime(this.audioElement.duration)}
+                    trueDuration={this.audioElement.duration}
                     currentTime={this.audioElement.currentTime}
                     handleTimeSeek={(e) => this.handleTimeSeek(e)}
-
+                    formattedCurrentTime={this.formatTime(this.audioElement.currentTime)}
+                    volume={this.state.volume * 100}
+                    handleVolumeChange={(e) => this.handleVolumeChange(e)}
                 />
             </section>
         );
