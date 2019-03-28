@@ -1,0 +1,8 @@
+.player-bar {
+    background-color: gray;
+    border-radius: 5%;
+    border-style: solid;
+    float: left;
+    bottom: 0;
+    position: fixed;
+}

@@ -25,11 +25,6 @@ class Album extends Component{
 
     }
 
-    //Declared Style variables
-    align = {
-      textAlign: "center"
-    };
-
     play() {
         //console.log("Entered play()");
         this.audioElement.play();
@@ -183,11 +178,22 @@ v
         this.setState({volume: newVolume})
     }
 
+    determineAlbumCover() {
+        console.log("Current song is: " + this.state.currentSong);
+        if(this.state.currentSong.title === this.state.album.songs[5].title){
+            return '/assets/images/album_covers/cover.jpg';
+        }else{
+            return this.state.album.albumCover;
+        }
+    }
+
     render(){
         return(
             <section className="album">
                 <section id="album-info">
-                    <img src={this.state.album.albumCover} alt={this.state.album.title} />
+                    <div className="albumCover-container">
+                        <img src={this.determineAlbumCover()} alt={this.state.album.title} />
+                    </div>
                     <div className="album-details">
                         <h1 id="album-title">
                             {this.state.album.title}
@@ -200,7 +206,7 @@ v
                         </div>
                     </div>
                 </section>
-                <table id="song-list" style={this.align}>
+                <table id="song-list">
                     <colgroup>
                         <col id="song-number-column" />
                         <col id="song-title-column" />

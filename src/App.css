@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  margin: 0 auto;
 }
 
 .App-logo {
@@ -30,4 +31,21 @@
   to {
     transform: rotate(360deg);
   }
+}
+.navBar {
+  width: 100%;
+  position: fixed;
+  float: none;
+  top: 0;
+  z-index: 1;
+  background-color: dimgrey;
+  overflow-x: hidden;
+}
+
+.navBar a {
+  color: white;
+  text-decoration: none;
+  width: 50%;
+  margin: .5%;
+  display: float;
 }

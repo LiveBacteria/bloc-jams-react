@@ -4,15 +4,16 @@ import './App.css';
 import Landing from './components/landing/Landing';
 import Library from './components/library/Library';
 import Album from './components/album/Album';
+import styles from './App.css'
 
 class App extends Component {
   render() {
     return (
         <div className="App">
           <header>
-            <nav>
-              <Link to="/">Landing</Link>
-              <Link to="/library">Library</Link>
+            <nav className="navBar">
+                <Link to="/"><b>Landing</b></Link>
+              <Link to="/library"><b>Library</b></Link>
             </nav>
             <h1>
               Bloc Jams

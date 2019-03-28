@@ -1,0 +1,16 @@
+.album {
+    color: white;
+}
+
+.albumCover-container {
+    padding: 5%;
+}
+
+img {
+    max-width: 100%;
+    box-shadow: 0 4em 8em 0 grey, 0 6em 20em 0 black;
+}
+
+#song-list {
+    margin: 0 auto;
+}
