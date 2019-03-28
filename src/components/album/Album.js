@@ -192,7 +192,7 @@ v
             <section className="album">
                 <section id="album-info">
                     <div className="albumCover-container">
-                        <img src={this.determineAlbumCover()} alt={this.state.album.title} />
+                        <img src={this.determineAlbumCover()} alt={this.state.album.title} style={this.styledImg}/>
                     </div>
                     <div className="album-details">
                         <h1 id="album-title">
@@ -220,7 +220,7 @@ v
                                     {item.title}
                                 </td>
                                 <td key={item.duration + (index + 1)}>
-                                    {item.duration}
+                                    {this.formatTime(parseInt(item.duration))}
                                 </td>
                             </tr>
                         )}
