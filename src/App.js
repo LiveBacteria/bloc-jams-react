@@ -7,7 +7,9 @@ import Album from './components/album/Album';
 import styles from './App.css'
 
 class App extends Component {
+
   render() {
+      const pathToLogo = '/assets/images/bloc_jams_logo.png';
     return (
         <div className="App">
           <header>
@@ -16,7 +18,7 @@ class App extends Component {
               <Link to="/library"><b>Library</b></Link>
             </nav>
             <h1>
-              Bloc Jams
+                <img src={pathToLogo} alt="Bloc Jams"/>
             </h1>
           </header>
           <main>
