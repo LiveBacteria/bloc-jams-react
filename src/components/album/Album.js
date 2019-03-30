@@ -17,6 +17,7 @@ class Album extends Component{
             hoveredSong: null,
             duration: album.songs[0].duration,
             currentTime: 0,
+            seekTime: null,
             formattedCurrentTime: 0,
             volume: .8
         };
@@ -136,7 +137,7 @@ v
     componentDidMount() {
         this.eventListeners = {
             timeupdate: e => {
-                this.setState({ currentTime: this.audioElement.currentTime , formattedCurrentTime: this.formatTime(this.audioElement.currentTime) });
+                this.setState({ currentTime: this.audioElement.currentTime, seekTime: this.audioElement.currentTime , formattedCurrentTime: this.formatTime(this.audioElement.currentTime) });
                 if(this.state.currentTime === this.state.duration){this.handleNextClick()}
             },
             durationchange: e => {
@@ -148,6 +149,7 @@ v
     }
 
     componentWillUnmount () {
+        this.setState({seekTime: null})
         this.audioElement.src = null;
         this.audioElement.removeEventListener('timeupdate', this.eventListeners.timeupdate);
         this.audioElement.removeEventListener('durationchange', this.eventListeners.durationchange);
@@ -155,8 +157,12 @@ v
 
     handleTimeSeek(e) {
         const newTime = this.audioElement.duration * e.target.value;
-        this.audioElement.currentTime = newTime;
-        this.setState({ currentTime: newTime });
+        if(newTime >= this.state.currentTime){
+            this.audioElement.currentTime = newTime;
+            this.setState({ currentTime: newTime });
+        }else{
+            this.setState({currentTime: this.audioElement.duration / 100})
+        }
     }
 
     formatTime (timeInSeconds) {
